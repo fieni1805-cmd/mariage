@@ -231,7 +231,7 @@ a{color:var(--olive)}
         </div>
         <div class="pane pad" role="tabpanel" aria-label="Accès">
           <h2 class="h2">Venir à Cocody</h2>
-          <div class="map"><iframe loading="lazy" title="Carte de Cocody" src="https://www.openstreetmap.org/export/embed.html?bbox=-4.010%2C5.330%2C-3.960%2C5.370&amp;layer=mapnik"></iframe></div>
+          <div class="map"><iframe loading="lazy" title="Carte de Cocody" src="https://www.openstreetmap.org/export/embed.html?bbox=-4.010%2C5.330%2C-3.960%2C5.370&amp;layer=mapnik&amp;marker=5.347972585905023%2C-3.9855912578172323"></iframe></div>
           <div class="places" id="places"></div>
         </div>
       </div>
@@ -312,20 +312,20 @@ a{color:var(--olive)}
   var EV=[
     {key:"civil",time:"10h",h:10,dur:2,name:"Mariage civil",short:"Civil",place:"Mairie de Cocody",chip:"#B7C4AE"},
     {key:"religieux",time:"13h",h:13,dur:2,name:"Mariage religieux",short:"Religieux",place:"Paroisse universitaire Saint Albert le Grand",chip:"#8E9C82"},
-    {key:"reception",time:"16h",h:16,dur:6,name:"Réception",short:"Réception",place:"Campus universitaire de Cocody",chip:"#C2A264"}
+    {key:"reception",time:"16h",h:16,dur:6,name:"Réception",short:"Réception",place:"Université FHB – Restaurant du nouveau site UFHB (CICS)",gps:"5.347972585905023,-3.9855912578172323",chip:"#C2A264"}
   ];
   var $=function(id){return document.getElementById(id)};
   var app=$("app");
   var S={screen:"env",tab:0,attend:"oui",ev:{civil:true,religieux:true,reception:true},name:"",tel:"",conj:"non",conjNom:"",msg:""};
   try{var saved=JSON.parse(localStorage.getItem("df-mariage")||"{}");["attend","ev","name","tel","conj","conjNom","msg"].forEach(function(k){if(saved[k]!==undefined)S[k]=saved[k]})}catch(e){}
   function save(){try{localStorage.setItem("df-mariage",JSON.stringify(S))}catch(e){}}
-  function mapUrl(p){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(p+", Cocody, Abidjan")}
+  function mapUrl(e){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(e.gps||(e.place+", Cocody, Abidjan"))}
   function pad(n){return (n<10?"0":"")+n}
 
   /* Contenu statique : programme et lieux */
-  $("events").innerHTML=EV.map(function(e){return '<div class="event"><div class="chip" style="background:'+e.chip+'">'+e.time+'</div><div class="txt"><h3>'+e.name+'</h3><p>'+e.place+'</p><a href="'+mapUrl(e.place)+'" target="_blank" rel="noopener">Itinéraire →</a></div></div>'}).join("");
+  $("events").innerHTML=EV.map(function(e){return '<div class="event"><div class="chip" style="background:'+e.chip+'">'+e.time+'</div><div class="txt"><h3>'+e.name+'</h3><p>'+e.place+'</p><a href="'+mapUrl(e)+'" target="_blank" rel="noopener">Itinéraire →</a></div></div>'}).join("");
   $("events").style.cssText="display:flex;flex-direction:column;gap:10px";
-  $("places").innerHTML=EV.map(function(e,i){return '<a href="'+mapUrl(e.place)+'" target="_blank" rel="noopener"><span class="n">'+(i+1)+'</span><span class="p">'+e.place+'</span><span class="go" aria-hidden="true">↗</span></a>'}).join("");
+  $("places").innerHTML=EV.map(function(e,i){return '<a href="'+mapUrl(e)+'" target="_blank" rel="noopener"><span class="n">'+(i+1)+'</span><span class="p">'+e.place+'</span><span class="go" aria-hidden="true">↗</span></a>'}).join("");
   $("ev-rows").innerHTML=EV.map(function(e){return '<div class="row"><span class="l"><b>'+e.short+'</b><span>'+e.time+'</span></span><span class="yn"><button data-ev="'+e.key+'" data-v="1">Oui</button><button data-ev="'+e.key+'" data-v="0">Non</button></span></div>'}).join("");
 
   /* Navigation entre écrans */
@@ -439,7 +439,7 @@ a{color:var(--olive)}
     $("th-yes").hidden=!yes;
     $("th-chips").innerHTML=c.map(function(e){return "<span>"+e.time+" · "+e.short+"</span>"}).join("");
     var ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Danielle&Fidel//FR","CALSCALE:GREGORIAN"];
-    c.forEach(function(e){ics.push("BEGIN:VEVENT","UID:"+e.key+"-df-20261128@mariage","DTSTAMP:20261001T000000Z","DTSTART:20261128T"+pad(e.h)+"0000Z","DTEND:20261128T"+pad(e.h+e.dur)+"0000Z","SUMMARY:"+e.name+" · Danielle & Fidel","LOCATION:"+e.place+"\\, Cocody\\, Abidjan","END:VEVENT")});
+    c.forEach(function(e){ics.push("BEGIN:VEVENT","UID:"+e.key+"-df-20261128@mariage","DTSTAMP:20261001T000000Z","DTSTART:20261128T"+pad(e.h)+"0000Z","DTEND:20261128T"+pad(e.h+e.dur)+"0000Z","SUMMARY:"+e.name+" · Danielle & Fidel","LOCATION:"+e.place.replace(/,/g,"\\,")+"\\, Cocody\\, Abidjan",(e.gps?"GEO:"+e.gps.replace(",",";"):"X-NOGEO:1"),"END:VEVENT")});
     ics.push("END:VCALENDAR");
     $("cal").href="data:text/calendar;charset=utf-8,"+encodeURIComponent(ics.join("\r\n"));
   }
