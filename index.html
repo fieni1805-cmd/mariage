@@ -74,7 +74,7 @@ a{color:var(--olive)}
 .viewport{flex:1;overflow:hidden;position:relative;min-height:0}
 .track{display:flex;width:300%;height:100%;transition:transform .55s cubic-bezier(.2,.8,.2,1)}
 .pane{width:33.3333%;flex:none;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
-.pane.pad{padding:10px 20px calc(120px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
+.pane.pad{padding:10px 20px 28px;display:flex;flex-direction:column;gap:10px}
 .pane-home{display:flex;flex-direction:column}
 .hero{height:min(300px,40vh);min-height:230px;flex:none;margin:0 12px;border-radius:28px;overflow:hidden;position:relative;background:var(--sauge)}
 .photo{flex:none;border-radius:24px;overflow:hidden;background:var(--sauge)}
@@ -88,7 +88,7 @@ a{color:var(--olive)}
 .hero .ph .s2{bottom:44px;right:-10px;transform:rotate(200deg)}
 .hero .ph .seal-disc{width:96px;height:96px}
 .hero .ph .seal-disc i{width:78px;height:78px;font-size:22px}
-.home-card{flex:1;margin-top:-28px;position:relative;z-index:1;background:var(--olive);color:var(--craie);border-radius:30px 30px 0 0;padding:24px 24px calc(110px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
+.home-card{flex:1;margin-top:-28px;position:relative;z-index:1;background:var(--olive);color:var(--craie);border-radius:30px 30px 0 0;padding:24px 24px 28px;display:flex;flex-direction:column;gap:10px}
 .eyebrow{font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--laiton);margin:0}
 .home-card h1{font-weight:800;font-size:44px;line-height:.95;letter-spacing:-.02em;margin:0}
 .home-card .when{font-weight:500;font-size:15px;color:var(--ivoire);margin:0}
@@ -117,7 +117,8 @@ a{color:var(--olive)}
 .places .p{flex:1;font-weight:600;font-size:14px;line-height:1.3}
 .places .go{font-weight:700;font-size:15px;color:var(--olive)}
 .note{font-weight:500;font-size:14px;line-height:1.4;color:var(--gris);text-align:center;padding:0 10px;margin:0}
-.float-cta{position:absolute;left:20px;right:20px;bottom:calc(26px + env(safe-area-inset-bottom,0px));z-index:6}
+.cta-bar{flex:none;position:relative;z-index:6;padding:12px 20px calc(18px + env(safe-area-inset-bottom,0px));background:var(--ivoire);box-shadow:0 -14px 24px -18px rgba(43,45,24,.35);transition:background .4s,box-shadow .4s}
+.cta-bar.on-olive{background:var(--olive);box-shadow:none}
 
 /* RSVP */
 .form{padding:10px 20px calc(28px + env(safe-area-inset-bottom,0px));gap:14px;overflow-y:auto}
@@ -235,7 +236,7 @@ a{color:var(--olive)}
         </div>
       </div>
     </div>
-    <button class="cta gold float-cta" id="cta-rsvp"><span>Je réponds</span><span class="dot" aria-hidden="true">→</span></button>
+    <div class="cta-bar on-olive" id="cta-bar"><button class="cta gold" id="cta-rsvp" style="width:100%"><span>Je réponds</span><span class="dot" aria-hidden="true">→</span></button></div>
   </section>
 
   <!-- 05 RSVP étape 1 -->
@@ -272,8 +273,7 @@ a{color:var(--olive)}
       <div class="field"><label for="f-cj">Nom et prénom du conjoint</label><input id="f-cj" placeholder="Paul Kouassi"></div>
     </div>
     <p class="err" id="err-2" role="alert" hidden></p>
-    <a class="cta olive push" id="send" href="https://wa.me/2250705709561" target="_blank" rel="noopener"><span>Envoyer ma réponse</span><span class="dot" aria-hidden="true">→</span></a>
-    <p class="alt">ou l'envoyer au <a id="send-alt" href="https://wa.me/2250584087408" target="_blank" rel="noopener">05 84 08 74 08</a></p>
+    <a class="cta olive push" id="send" href="https://wa.me/2250709352180" target="_blank" rel="noopener"><span>Envoyer ma réponse</span><span class="dot" aria-hidden="true">→</span></a>
     <p class="wa-hint">WhatsApp s'ouvre avec votre réponse déjà rédigée : il ne reste qu'à l'envoyer.</p>
   </section>
 
@@ -286,8 +286,7 @@ a{color:var(--olive)}
     <div class="field"><label for="m-name">Nom et prénoms</label><input id="m-name" autocomplete="name" placeholder="Marie Kouassi"></div>
     <div class="field"><label for="m-msg">Votre mot</label><textarea id="m-msg" rows="6" placeholder="Tous nos vœux de bonheur…"></textarea></div>
     <p class="err" id="err-3" role="alert" hidden></p>
-    <a class="cta olive push" id="send-mot" href="https://wa.me/2250705709561" target="_blank" rel="noopener"><span>Envoyer mon mot</span><span class="dot" aria-hidden="true">→</span></a>
-    <p class="alt">ou l'envoyer au <a id="send-mot-alt" href="https://wa.me/2250584087408" target="_blank" rel="noopener">05 84 08 74 08</a></p>
+    <a class="cta olive push" id="send-mot" href="https://wa.me/2250709352180" target="_blank" rel="noopener"><span>Envoyer mon mot</span><span class="dot" aria-hidden="true">→</span></a>
   </section>
 
   <!-- 07 Merci -->
@@ -309,7 +308,7 @@ a{color:var(--olive)}
 <script>
 (function(){
   "use strict";
-  var NUM1="2250705709561", NUM2="2250584087408";
+  var NUM1="2250709352180";
   var EV=[
     {key:"civil",time:"10h",h:10,dur:2,name:"Mariage civil",short:"Civil",place:"Mairie de Cocody",chip:"#B7C4AE"},
     {key:"religieux",time:"13h",h:13,dur:2,name:"Mariage religieux",short:"Religieux",place:"Paroisse universitaire Saint Albert le Grand",chip:"#8E9C82"},
@@ -365,7 +364,8 @@ a{color:var(--olive)}
     S.tab=i;
     $("track").style.transform="translateX("+(-33.3333*i)+"%)";
     [].forEach.call(document.querySelectorAll(".tab"),function(b){b.setAttribute("aria-selected",+b.getAttribute("data-tab")===i?"true":"false")});
-    var c=$("cta-rsvp"); c.className="cta float-cta "+(i===0?"gold":"olive");
+    $("cta-rsvp").className="cta "+(i===0?"gold":"olive");
+    $("cta-bar").classList.toggle("on-olive",i===0);
   }
   $("cta-rsvp").addEventListener("click",function(){show("rsvp")});
 
@@ -410,7 +410,6 @@ a{color:var(--olive)}
   function refreshLinks(){
     var t=encodeURIComponent(message());
     $("send").href=$("send-mot").href="https://wa.me/"+NUM1+"?text="+t;
-    $("send-alt").href=$("send-mot-alt").href="https://wa.me/"+NUM2+"?text="+t;
   }
   function check(mot){
     if(!S.name.trim()) return "Indiquez votre nom et vos prénoms.";
@@ -424,9 +423,7 @@ a{color:var(--olive)}
     setTimeout(function(){show("merci")},400);
   }
   $("send").addEventListener("click",function(e){onSend(e,"err-2",false)});
-  $("send-alt").addEventListener("click",function(e){onSend(e,"err-2",false)});
   $("send-mot").addEventListener("click",function(e){onSend(e,"err-3",true)});
-  $("send-mot-alt").addEventListener("click",function(e){onSend(e,"err-3",true)});
 
   function renderMerci(){
     var yes=S.attend==="oui", c=chosen(), n=S.name.trim();
